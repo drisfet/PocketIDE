@@ -6,110 +6,44 @@
   # Use latest stable nixpkgs channel for 2025 compatibility
   channel = "stable-24.11";
   
-  # Core development packages for PocketIDE
+  # Core development packages for PocketIDE - minimal and focused
   packages = [
     # Node.js 20+ for Next.js 15 and modern JavaScript tooling
     pkgs.nodejs_20
     
-    # Java for WebContainer and potentially other runtimes
-    pkgs.jdk17
-    
-    # Zulu for Java compatibility (alternative to OpenJDK)
-    pkgs.zulu
-    
-    # Essential build tools
+    # Essential build tools (using nodejs_20.pkgs for availability)
     pkgs.nodejs_20.pkgs.pnpm  # For faster, disk-efficient package management
-    pkgs.nodejs_20.pkgs.typescript  # TypeScript compiler
-    pkgs.nodejs_20.pkgs.typescript-language-server  # TS language server
-    pkgs.nodejs_20.pkgs.eslint  # Linter for code quality
-    pkgs.nodejs_20.pkgs.postcss  # CSS post-processing
-    pkgs.nodejs_20.pkgs.autoprefixer  # CSS prefixing
     
     # Development utilities
     pkgs.git  # Version control
-    pkgs.watchman  # File watching for development
-    pkgs.yq  # YAML processing for configuration
     
-    # Mobile development tools
-    pkgs.cordova  # For potential mobile app wrapping
-    pkgs.ios-deploy  # For iOS device testing
-    
-    # Testing tools
-    pkgs.jest  # JavaScript testing framework
-    pkgs.playwright  # E2E testing with mobile device support
+    # Optional: Java for WebContainer/Judge0 (remove if not needed)
+    # pkgs.jdk17  # Only required for WebContainer runtime
   ];
   
-  # Environment variables for PocketIDE development
+  # Environment variables for PocketIDE development - minimal and focused
   env = {
     # Node.js environment
     NODE_ENV = "development";
     
-    # TypeScript configuration
-    TSC_NON_INCREMENTAL = "true";  # Better for mobile development workflows
-    
     # PocketIDE specific
     POCKETIDE_VERSION = "1.0.0";
-    NEXT_TELEMETRY_DISABLED = "1";  # Disable Next.js telemetry
     
-    # Package manager configuration
-    PNPM_PACKAGE_MANAGER = "true";  # Use pnpm as package manager
-    
-    # Supabase configuration (will be overridden by local .env)
-    SUPABASE_URL = "https://your-project.supabase.co";
-    SUPABASE_ANON_KEY = "your-anon-key";
-    
-    # Judge0 API configuration
-    JUDGE0_API_URL = "https://judge0-ce.p.rapidapi.com";
-    JUDGE0_API_KEY = "your-rapidapi-key";
-    
-    # Open VSX API configuration
-    NEXT_PUBLIC_OPEN_VSX_API_URL = "https://open-vsx.org/api";
-    
-    # Monaco Editor configuration
-    MONACO_EDITOR_WEBPACK_PLUGIN = "true";
-    
-    # Tailwind CSS configuration
-    TAILwindCSS_CONFIG_PATH = "./tailwind.config.ts";
-    
-    # PWA configuration
-    NEXT_PUBLIC_PWA_ENABLED = "true";
+    # Disable Next.js telemetry for cleaner development
+    NEXT_TELEMETRY_DISABLED = "1";
   };
   
-  # VS Code extensions for PocketIDE development
+  # VS Code extensions for PocketIDE development - minimal and focused
   idx = {
     extensions = [
       # Essential extensions for web development
-      "bradlc.vscode-tailwindcss"
-      "ms-vscode.vscode-json"
-      "esbenp.prettier-vscode"
-      "ms-vscode.vscode-typescript-next"
-      
-      # Monaco Editor extensions
-      "ms-vscode.vscode-json"
-      "ms-vscode.vscode-css"
+      "bradlc.vscode-tailwindcss"  # Tailwind CSS IntelliSense
+      "ms-vscode.vscode-json"      # JSON support
+      "esbenp.prettier-vscode"     # Code formatting
+      "ms-vscode.vscode-typescript-next"  # TypeScript support
       
       # Git integration
-      "github.vscode-pull-request-github"
-      
-      # Testing
-      "ms-playwright.playwright"
-      
-      # Mobile development
-      "ionic.ionic"
-      
-      # Radix UI and shadcn/ui support
-      "unifiedjs.vscode-mdx"
-      "bradlc.vscode-tailwindcss"
-      
-      # Database tools
-      "mtxr.sqltools"
-      "mtxr.sqltools-driver-pg"
-      
-      # API development
-      "humao.rest-client"
-      
-      # Docker support
-      "ms-azuretools.vscode-docker"
+      "github.vscode-pull-request-github"  # GitHub PR support
     ];
     
     # Workspace configuration
